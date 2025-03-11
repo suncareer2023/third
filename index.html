@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>サンキャリア高崎 プログラム申込システム</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #f0f2f5;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3, h4 {
+      color: #333;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 20px;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+    h3 {
+      font-size: 18px;
+      margin-top: 25px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f5f5f5;
+    }
+    .user-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .user-btn {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.2s;
+    }
+    .user-btn:hover {
+      background-color: #1557b0;
+    }
+    .staff-btn {
+      background-color: #34a853;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.2s;
+    }
+    .staff-btn:hover {
+      background-color: #2a8644;
+    }
+    .back-btn {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+      transition: background-color 0.2s;
+    }
+    .back-btn:hover {
+      background-color: #1557b0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .stat-card {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 4px;
+    }
+    .stat-card .day {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .stat-card .count {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- User Selection View -->
+    <div id="userSelection">
+      <h1>サンキャリア高崎 プログラム申込</h1>
+      <p>参加するプログラムを選択してください。</p>
+      
+      <div class="user-grid">
+        <!-- User buttons will be generated here -->
+      </div>
+      
+      <button class="staff-btn" onclick="showStaffView()">スタッフ確認画面へ</button>
+    </div>
+
+    <!-- User Schedule View -->
+    <div id="userSchedule" class="hidden">
+      <h1 id="userName">ユーザーのスケジュール</h1>
+      
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>月曜日</th>
+            <th>火曜日</th>
+            <th>水曜日</th>
+            <th>木曜日</th>
+            <th>金曜日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>午前</strong></td>
+            <td>
+              <label>
+                <input type="checkbox" name="am-mon" data-day="mon" class="am-checkbox">
+                ストレスマネジメント講座
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" name="am-tue" data-day="tue" class="am-checkbox">
+                社会人基礎力養成講座
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" name="am-wed" data-day="wed" class="am-checkbox">
+                動画編集講座
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" name="am-thu" data-day="thu" class="am-checkbox">
+                ライフスキル講座
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" name="am-fri" data-day="fri" class="am-checkbox">
+                就職準備講座
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>昼食</strong></td>
+            <td>
+              <label>
+                <input type="checkbox" name="lunch-mon" data-day="mon" class="lunch-checkbox">
+                希望
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" name="lunch-tue" data-day="tue" class="lunch-checkbox">
+                希望
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" name="lunch-wed" data-day="wed" class="lunch-checkbox">
+                希望
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" name="lunch-thu" data-day="thu" class="lunch-checkbox">
+                希望
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" name="lunch-fri" data-day="fri" class="lunch-checkbox">
+                希望
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>午後</strong></td>
+            <td>
+              <div>
+                <label>
+                  <input type="radio" name="pm-mon" value="自習" data-day="mon" class="pm-radio">
+                  自習
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input type="radio" name="pm-mon" value="IT自習" data-day="mon" class="pm-radio">
+                  IT自習
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input type="radio" name="pm-mon" value="参加しない" data-day="mon" class="pm-radio">
+                  参加しない
+                </label>
+              </div>
+            </td>
+            <td>
+              <div>
+                <label>
+                  <input type="radio" name="pm-tue" value="MOS実践講座" data-day="tue" class="pm-radio">
+                  MOS実践講座
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input type="radio" name="pm-tue" value="自習" data-day="tue" class="pm-radio">
+                  自習
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input type="radio" name="pm-tue" value="IT自習" data-day="tue" class="pm-radio">
+                  IT自習
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input type="radio" name="pm-tue" value="参加しない" data-day="tue" class="pm-radio">
+                  参加しない
+                </label>
+              </div>
+            </td>
+            <td>
+              <div>
+                <label>
+                  <input type="radio" name="pm-wed" value="Excel講座" data-day="wed" class="pm-radio">
+                  Excel講座
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input type="radio" name="pm-wed" value="自習" data-day="wed" class="pm-radio">
+                  自習
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input type="radio" name="pm-wed" value="IT自習" data-day="wed" class="pm-radio">
+                  IT自習
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input type="radio" name="pm-wed" value="参加しない" data-day="wed" class="pm-radio">
+                  参加しない
+                </label>
+              </div>
+            </td>
+            <td>
+              <div>
+                <label>
+                  <input type="radio" name="pm-thu" value="リモートメール講座" data-day="thu" class="pm-radio">
+                  リモートメール講座
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input type="radio" name="pm-thu" value="参加しない" data-day="thu" class="pm-radio">
+                  参加しない
+                </label>
+              </div>
+            </td>
+            <td>
+              <div>
+                <label>
+                  <input type="radio" name="pm-fri" value="IT講座" data-day="fri" class="pm-radio">
+                  IT講座
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input type="radio" name="pm-fri" value="自習" data-day="fri" class="pm-radio">
+                  自習
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input type="radio" name="pm-fri" value="参加しない" data-day="fri" class="pm-radio">
+                  参加しない
+                </label>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button class="back-btn" onclick="saveAndGoBack()">保存して戻る</button>
+    </div>
+    
+    <!-- Staff View -->
+    <div id="staffView" class="hidden">
+      <h1>スタッフ確認ページ</h1>
+      
+      <h2>日別参加者数</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="day">月曜日</div>
+          <div class="count" id="mon-count">0名</div>
+        </div>
+        <div class="stat-card">
+          <div class="day">火曜日</div>
+          <div class="count" id="tue-count">0名</div>
+        </div>
+        <div class="stat-card">
+          <div class="day">水曜日</div>
+          <div class="count" id="wed-count">0名</div>
+        </div>
+        <div class="stat-card">
+          <div class="day">木曜日</div>
+          <div class="count" id="thu-count">0名</div>
+        </div>
+        <div class="stat-card">
+          <div class="day">金曜日</div>
+          <div class="count" id="fri-count">0名</div>
+        </div>
+      </div>
+      
+      <h2>プログラム別参加者</h2>
+      
+      <h3>午前のプログラム</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>曜日</th>
+            <th>プログラム</th>
+            <th>参加者数</th>
+            <th>参加者</th>
+          </tr>
+        </thead>
+        <tbody id="am-table-body">
+          <!-- Will be populated by JavaScript -->
+        </tbody>
+      </table>
+      
+      <h3>午後のプログラム</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>曜日</th>
+            <th>参加者数</th>
+            <th>参加者詳細</th>
+          </tr>
+        </thead>
+        <tbody id="pm-table-body">
+          <!-- Will be populated by JavaScript -->
+        </tbody>
+      </table>
+      
+      <h3>昼食希望者</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>曜日</th>
+            <th>希望者数</th>
+            <th>希望者</th>
+          </tr>
+        </thead>
+        <tbody id="lunch-table-body">
+          <!-- Will be populated by JavaScript -->
+        </tbody>
+      </table>
+      
+      <button class="back-btn" onclick="showUserSelection()">ユーザー選択に戻る</button>
+    </div>
+  </div>
+
+  <script>
+    // Data structure
+    const users = [
+      { id: 1, name: "利用者A" },
+      { id: 2, name: "利用者B" },
+      { id: 3, name: "利用者C" },
+      { id: 4, name: "利用者D" },
+      { id: 5, name: "利用者E" },
+      { id: 6, name: "利用者F" },
+      { id: 7, name: "利用者G" },
+      { id: 8, name: "利用者H" },
+      { id: 9, name: "利用者I" },
+      { id: 10, name: "利用者J" },
+      { id: 11, name: "利用者K" },
+      { id: 12, name: "利用者L" },
+      { id: 13, name: "利用者M" },
+      { id: 14, name: "利用者N" },
+      { id: 15, name: "利用者O" },
+      { id: 16, name: "利用者P" },
+      { id: 17, name: "利用者Q" },
+      { id: 18, name: "利用者R" },
+      { id: 19, name: "利用者S" },
+      { id: 20, name: "利用者T" }
+    ];
+
+    const programs = {
+      AM: {
+        mon: "ストレスマネジメント講座",
+        tue: "社会人基礎力養成講座",
+        wed: "動画編集講座",
+        thu: "ライフスキル講座",
+        fri: "就職準備講座"
+      },
+      PM: {
+        mon: ["自習", "IT自習"],
+        tue: ["MOS実践講座", "自習", "IT自習"],
+        wed: ["Excel講座", "自習", "IT自習"],
+        thu: ["リモートメール講座"],
+        fri: ["IT講座", "自習"]
+      }
+    };
+
+    // User registration data storage
+    const registrations = {};
+    
+    // Current user being edited
+    let currentUserId = null;
+
+    // Initialize registrations
+    function initializeRegistrations() {
+      users.forEach(user => {
+        registrations[user.id] = {
+          AM: { mon: false, tue: false, wed: false, thu: false, fri: false },
+          PM: { mon: null, tue: null, wed: null, thu: null, fri: null },
+          lunch: { mon: false, tue: false, wed: false, thu: false, fri: false }
+        };
+      });
+    }
+
+    // Setup user buttons
+    function setupUserButtons() {
+      const userGrid = document.querySelector('.user-grid');
+      userGrid.innerHTML = '';
+      
+      users.forEach(user => {
+        const button = document.createElement('button');
+        button.textContent = user.name;
+        button.className = 'user-btn';
+        button.onclick = () => showUserSchedule(user.id);
+        userGrid.appendChild(button);
+      });
+    }
+
+    // Show the schedule for a specific user
+    function showUserSchedule(userId) {
+      currentUserId = userId;
+      const user = users.find(u => u.id === userId);
+      
+      // Update user name in header
+      document.getElementById('userName').textContent = `${user.name}さんのスケジュール`;
+      
+      // Set checkboxes based on user's registration
+      const userReg = registrations[userId];
+      
+      // Set AM checkboxes
+      document.querySelectorAll('.am-checkbox').forEach(checkbox => {
+        const day = checkbox.dataset.day;
+        checkbox.checked = userReg.AM[day];
+      });
+      
+      // Set lunch checkboxes
+      document.querySelectorAll('.lunch-checkbox').forEach(checkbox => {
+        const day = checkbox.dataset.day;
+        checkbox.checked = userReg.lunch[day];
+      });
+      
+      // Set PM radio buttons
+      document.querySelectorAll('.pm-radio').forEach(radio => {
+        const day = radio.dataset.day;
+        const value = radio.value;
+        
+        if (value === '参加しない') {
+          radio.checked = userReg.PM[day] === null;
+        } else {
+          radio.checked = userReg.PM[day] === value;
+        }
+      });
+      
+      // Show user schedule view, hide others
+      document.getElementById('userSelection').classList.add('hidden');
+      document.getElementById('staffView').classList.add('hidden');
+      document.getElementById('userSchedule').classList.remove('hidden');
+    }
+
+    // Save user schedule and go back to selection
+    function saveAndGoBack() {
+      if (!currentUserId) return;
+      
+      const userReg = registrations[currentUserId];
+      
+      // Save AM checkboxes
+      document.querySelectorAll('.am-checkbox').forEach(checkbox => {
+        const day = checkbox.dataset.day;
+        userReg.AM[day] = checkbox.checked;
+      });
+      
+      // Save lunch checkboxes
+      document.querySelectorAll('.lunch-checkbox').forEach(checkbox => {
+        const day = checkbox.dataset.day;
+        userReg.lunch[day] = checkbox.checked;
+      });
+      
+      // Save PM radio buttons
+      const days = ['mon', 'tue', 'wed', 'thu', 'fri'];
+      days.forEach(day => {
+        const selectedRadio = document.querySelector(`input[name="pm-${day}"]:checked`);
+        if (selectedRadio) {
+          userReg.PM[day] = selectedRadio.value === '参加しない' ? null : selectedRadio.value;
+        }
+      });
+      
+      // Go back to user selection
+      showUserSelection();
+    }
+
+    // Show user selection view
+    function showUserSelection() {
+      document.getElementById('userSchedule').classList.add('hidden');
+      document.getElementById('staffView').classList.add('hidden');
+      document.getElementById('userSelection').classList.remove('hidden');
+      currentUserId = null;
+    }
+
+    // Show staff view
+    function showStaffView() {
+      updateStaffView();
+      document.getElementById('userSelection').classList.add('hidden');
+      document.getElementById('userSchedule').classList.add('hidden');
+      document.getElementById('staffView').classList.remove('hidden');
+    }
+
+    // Update staff view with current data
+    function updateStaffView() {
+      updateDailyCounts();
+      updateAMTable();
+      updatePMTable();
+      updateLunchTable();
+    }
+
+    // Update daily attendance counts
+    function updateDailyCounts() {
+      const days = ['mon', 'tue', 'wed', 'thu', 'fri'];
+      const dailyCounts = { mon: 0, tue: 0, wed: 0, thu: 0, fri: 0 };
+      
+      users.forEach(user => {
+        if (!registrations[user.id]) return;
+        
+        days.forEach(day => {
+          if (registrations[user.id].AM[day] || registrations[user.id].PM[day] !== null) {
+            dailyCounts[day]++;
+          }
+        });
+      });
+      
+      // Update count displays
+      days.forEach(day => {
+        document.getElementById(`${day}-count`).textContent = `${dailyCounts[day]}名`;
+      });
+    }
+
+    // Update AM program table
+    function updateAMTable() {
+      const days = ['mon', 'tue', 'wed', 'thu', 'fri'];
+      const dayNames = { mon: '月', tue: '火', wed: '水', thu: '木', fri: '金' };
+      const tableBody = document.getElementById('am-table-body');
+      tableBody.innerHTML = '';
+      
+      days.forEach(day => {
+        const row = document.createElement('tr');
+        
+        // Day column
+        const dayCell = document.createElement('td');
+        dayCell.textContent = dayNames[day];
+        row.appendChild(dayCell);
+        
+        // Program column
+        const programCell = document.createElement('td');
+        programCell.textContent = programs.AM[day];
+        row.appendChild(programCell);
+        
+        // Participant count column
+        const participants = users.filter(user => 
+          registrations[user.id] && registrations[user.id].AM[day]
+        );
+        const countCell = document.createElement('td');
+        countCell.textContent = `${participants.length}名`;
+        row.appendChild(countCell);
+        
+        // Participant names column
+        const namesCell = document.createElement('td');
+        namesCell.textContent = participants.map(user => user.name).join(', ');
+        row.appendChild(namesCell);
+        
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Update PM program table
+    function updatePMTable() {
+      const days = ['mon', 'tue', 'wed', 'thu', 'fri'];
+      const dayNames = { mon: '月', tue: '火', wed: '水', thu: '木', fri: '金' };
+      const tableBody = document.getElementById('pm-table-body');
+      tableBody.innerHTML = '';
+      
+      days.forEach(day => {
+        const row = document.createElement('tr');
+        
+        // Day column
+        const dayCell = document.createElement('td');
+        dayCell.textContent = dayNames[day];
+        row.appendChild(dayCell);
+        
+        // Count column
+        const participants = users.filter(user => 
+          registrations[user.id] && registrations[user.id].PM[day] !== null
+        );
+        const countCell = document.createElement('td');
+        countCell.textContent = `${participants.length}名`;
+        row.appendChild(countCell);
+        
+        // Details column
+        const detailsCell = document.createElement('td');
+        
+        // For each program option, list participants
+        const programOptions = Array.isArray(programs.PM[day]) ? programs.PM[day] : [programs.PM[day][0]];
+        
+        programOptions.forEach(program => {
+          const programParticipants = users.filter(user => 
+            registrations[user.id] && registrations[user.id].PM[day] === program
+          );
+          
+          if (programParticipants.length > 0) {
+            const div = document.createElement('div');
+            div.innerHTML = `<strong>${program}:</strong> ${programParticipants.map(user => user.name).join(', ')}`;
+            detailsCell.appendChild(div);
+          }
+        });
+        
+        row.appendChild(detailsCell);
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Update lunch table
+    function updateLunchTable() {
+      const days = ['mon', 'tue', 'wed', 'thu', 'fri'];
+      const dayNames = { mon: '月', tue: '火', wed: '水', thu: '木', fri: '金' };
+      const tableBody = document.getElementById('lunch-table-body');
+      tableBody.innerHTML = '';
+      
+      days.forEach(day => {
+        const row = document.createElement('tr');
+        
+        // Day column
+        const dayCell = document.createElement('td');
+        dayCell.textContent = dayNames[day];
+        row.appendChild(dayCell);
+        
+        // Count column
+        const participants = users.filter(user => 
+          registrations[user.id] && registrations[user.id].lunch[day]
+        );
+        const countCell = document.createElement('td');
+        countCell.textContent = `${participants.length}名`;
+        row.appendChild(countCell);
+        
+        // Names column
+        const namesCell = document.createElement('td');
+        namesCell.textContent = participants.map(user => user.name).join(', ');
+        row.appendChild(namesCell);
+        
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Initialize the application
+    function init() {
+      initializeRegistrations();
+      setupUserButtons();
+      showUserSelection();
+    }
+
+    // Start the application
+    window.onload = init;
+  </script>
+</body>
+</html>
